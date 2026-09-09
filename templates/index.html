@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detector de números y texto manuscrito</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <h1>Detector de números y texto manuscrito</h1>
+    <p>TensorFlow + Keras + OpenCV</p>
+
+    <section class="card">
+      <h2>1. Entrenamiento</h2>
+      <button id="trainDigits">Entrenar números (MNIST)</button>
+      <button id="trainText">Entrenar letras (EMNIST)</button>
+      <p id="trainingStatus">Comprobando modelos...</p>
+      <small>El entrenamiento de letras descarga EMNIST la primera vez y puede tardar.</small>
+    </section>
+
+    <section class="card">
+      <h2>2. Captura o carga una imagen</h2>
+      <div class="camera-actions">
+        <button id="openCamera">Abrir cámara</button>
+        <button id="capture" disabled>Tomar foto</button>
+        <button id="closeCamera" disabled>Cerrar cámara</button>
+      </div>
+      <video id="video" autoplay playsinline></video>
+      <canvas id="canvas" hidden></canvas>
+      <input id="fileInput" type="file" accept="image/*" capture="environment">
+      <img id="preview" alt="Vista previa">
+    </section>
+
+    <section class="card">
+      <h2>3. ¿Qué quieres detectar?</h2>
+      <label><input type="radio" name="mode" value="number" checked> Número</label>
+      <label><input type="radio" name="mode" value="text"> Letras, palabras o frases</label>
+      <button id="analyze">Analizar imagen</button>
+      <p id="message"></p>
+    </section>
+
+    <section class="card result">
+      <h2>Resultado</h2>
+      <div id="digitResult">—</div>
+      <div id="confidence"></div>
+      <pre id="textResult"></pre>
+      <h3>Imagen procesada por OpenCV</h3>
+      <img id="processed" alt="Imagen procesada">
+    </section>
+
+    <section class="card">
+      <h2>Flujo del sistema</h2>
+      <p>Cámara/imagen → escala de grises → umbral → segmentación → 28×28 → normalización → red neuronal → resultado.</p>
+      <p>Para texto, el sistema separa líneas y caracteres, clasifica cada letra con EMNIST y reconstruye palabras y frases.</p>
+    </section>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
